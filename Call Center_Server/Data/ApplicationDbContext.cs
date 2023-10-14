@@ -12,6 +12,6 @@ namespace Call_Center_Server.Data
         {
         }
 
-        public DbSet<Call> Calls { get; set; }
+        public DbSet<CallModel> Calls { get; set; }
     }
 }

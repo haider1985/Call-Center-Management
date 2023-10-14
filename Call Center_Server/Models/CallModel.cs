@@ -2,7 +2,7 @@
 
 namespace Call_Center_Server.Models
 {
-    public class Call
+    public class CallModel
     {
         [Required]
         public int Id { get; set; }

@@ -1,5 +1,7 @@
 using Call_Center_Server.Areas.Identity;
 using Call_Center_Server.Data;
+using Call_Center_Server.Services;
+using Call_Center_Server.Services.IServices;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -20,6 +22,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
+builder.Services.AddScoped<ICallService, CallService>();
 
 var app = builder.Build();
 
