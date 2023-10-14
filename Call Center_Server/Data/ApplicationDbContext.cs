@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Call_Center_Server.Models;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Call_Center_Server.Data
@@ -9,5 +11,7 @@ namespace Call_Center_Server.Data
             : base(options)
         {
         }
+
+        public DbSet<Call> Calls { get; set; }
     }
 }
