@@ -74,40 +74,40 @@
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerName" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerName" />
                             <label for="floatingInputGrid">Full Name *</label>
-                            <ValidationMessage For="()=>CallModel.CallerName"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModel.CustomerName"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerCompanyName" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerCompanyName" />
                             <label for="floatingInputGrid">Company Name</label>
-                            <ValidationMessage For="()=>CallModel.CallerCompanyName"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModel.CustomerCompanyName"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerEmail" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerEmail" />
                             <label for="floatingInputGrid">Email *</label>
-                            <ValidationMessage For="()=>CallModel.CallerEmail"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModel.CustomerEmail"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerPhone" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerPhone" />
                             <label for="floatingInputGrid">Phone Number *</label>
-                            <ValidationMessage For="()=>CallModel.CallerPhone"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModel.CustomerPhone"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="form-floating col-12">
-                        <InputTextArea style="height:100px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerAddress" />
+                        <InputTextArea style="height:100px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerCompanyAddress" />
                         <label for="floatingInputGrid">Company Address</label>
-                        <ValidationMessage For="()=>CallModel.CallerAddress"></ValidationMessage>
+                        <ValidationMessage For="()=>CallModel.CustomerCompanyAddress"></ValidationMessage>
                     </div>
                 </div>
 
@@ -117,9 +117,9 @@
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.ReceivingCallName" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.AgentEmployeeName" />
                             <label for="floatingInputGrid">Employee Name *</label>
-                            <ValidationMessage For="()=>CallModel.ReceivingCallName"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModel.AgentEmployeeName"></ValidationMessage>
                         </div>
                     </div>
 
