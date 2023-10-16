@@ -11,7 +11,7 @@ namespace Call_Center_Server.Models
         [StringLength(
             maximumLength: 50,
             MinimumLength = 3,
-            ErrorMessage = "The caller name must be more than 3 letters and below 50 letters"
+            ErrorMessage = "Invalid Customer Name."
             )]
         [Display(Name ="Caller Name")]
         public string CallerName { get; set; } = string.Empty;
@@ -23,6 +23,8 @@ namespace Call_Center_Server.Models
         public string CallerCompanyName { get; set; } = string.Empty;
 
         [Required]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "Invalid Phone Number.")]
         [Display(Name = "Caller Phone Number")]
         public string CallerPhone { get; set; } = string.Empty;
         [Required]
@@ -47,13 +49,13 @@ namespace Call_Center_Server.Models
         [StringLength(
            maximumLength: 50,
            MinimumLength = 3,
-           ErrorMessage = "The receiving call name must be more than 3 letters and below 50 letters"
+           ErrorMessage = "Invalid Employee Name"
            )]
         [Display(Name = "Receiving Call Name")]
         public string ReceivingCallName { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Stage")]
-        public string CallStage { get; set; } = string.Empty;
+        public string CallStage { get; set; } = "New";
     }
 }

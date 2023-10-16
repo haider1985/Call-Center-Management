@@ -1,0 +1,199 @@
+﻿@page "/call/create"
+@page "/call/update/{id:int}"
+
+@inject ICallService iCallService
+@inject NavigationManager nav
+
+
+
+<div class="container-fluid my-2">
+
+    <div class="row">
+        <h2 class="card-title text-primary mb-3 ml-3">@Title Call</h2>
+    </div>
+
+    <div class="row">
+
+        @if (IsLoading)
+        {
+            <div class="text-center">
+                <img src="/images/general/loading.gif">
+            </div>
+        }
+        else
+        {
+            <EditForm Model="CallModel" OnValidSubmit="CreateUpdateCall">
+                <DataAnnotationsValidator />
+
+                <div class="row g-2 mb-3">
+                    <h3 class="text-center" style="color:GrayText">Call Information</h3>
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputNumber disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModel.Id" />
+                            <label for="floatingInputGrid">Call Id</label>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputDate class="form-control" id="floatingInputGrid" Type="InputDateType.DateTimeLocal" format="dd/MMM/yyyy hh:mm tt" @bind-Value="CallModel.CallDateTime" />
+                            <label for="floatingInputGrid">Date & Time</label>
+                            <ValidationMessage For="()=>CallModel.CallDateTime"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="CallModel.CallsUrgency">
+                                <option value="Not Urgent">Not Urgent</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Immediately">Immediately</option>
+                            </InputSelect>
+                            <label for="floatingSelectGrid">Urgency Level</label>
+                            <ValidationMessage For="()=>CallModel.CallsUrgency"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallStatus" />
+                            <label for="floatingInputGrid">Status</label>
+                            <ValidationMessage For="()=>CallModel.CallStatus"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="form-floating col-12">
+                        <InputTextArea style="height:150px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallReason" />
+                        <label for="floatingInputGrid">Reason Of Call *</label>
+                        <ValidationMessage For="()=>CallModel.CallReason"></ValidationMessage>
+                    </div>
+                </div>
+
+                <div class="row g-2 mt-4">
+                    <h3 class="text-center" style="color:GrayText">Customer Information</h3>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerName" />
+                            <label for="floatingInputGrid">Full Name *</label>
+                            <ValidationMessage For="()=>CallModel.CallerName"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerCompanyName" />
+                            <label for="floatingInputGrid">Company Name</label>
+                            <ValidationMessage For="()=>CallModel.CallerCompanyName"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerEmail" />
+                            <label for="floatingInputGrid">Email *</label>
+                            <ValidationMessage For="()=>CallModel.CallerEmail"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerPhone" />
+                            <label for="floatingInputGrid">Phone Number *</label>
+                            <ValidationMessage For="()=>CallModel.CallerPhone"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="form-floating col-12">
+                        <InputTextArea style="height:100px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallerAddress" />
+                        <label for="floatingInputGrid">Company Address</label>
+                        <ValidationMessage For="()=>CallModel.CallerAddress"></ValidationMessage>
+                    </div>
+                </div>
+
+
+                <div class="row g-2 mt-4">
+                    <h3 class="text-center" style="color:GrayText">More!</h3>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.ReceivingCallName" />
+                            <label for="floatingInputGrid">Employee Name *</label>
+                            <ValidationMessage For="()=>CallModel.ReceivingCallName"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-floating">
+                            <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallStage" />
+                            <label for="floatingInputGrid">Stage</label>
+                            <ValidationMessage For="()=>CallModel.CallStage"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row py-4">
+                    <div class="form-group">
+                        <button class="btn btn-primary">@Title Call</button>
+                        <NavLink href="/callslist" class="btn btn-secondary">Back to Calls List</NavLink>
+                    </div>
+                </div>
+            </EditForm>
+        }
+    </div>
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private string Title = "Create";
+    private bool IsLoading;
+    private CallModel CallModel { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (Id == 0)
+            {
+                //Create Call.
+                IsLoading = false;
+            }
+            else
+            {
+                //Update Call
+                Title = "Update";
+                await LoadCall();
+            }
+        }
+    }
+
+    private async Task LoadCall()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        CallModel = await iCallService.GetCallAsync(Id);
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task CreateUpdateCall()
+    {
+        if (CallModel.Id == 0)
+        {
+            //Create Call.
+            await iCallService.CreateCallAsync(CallModel);
+        }
+        else
+        {
+            //Update Call.
+            await iCallService.UpdateCallAsync(CallModel);
+        }
+
+        nav.NavigateTo("/callslist");
+    }
+}

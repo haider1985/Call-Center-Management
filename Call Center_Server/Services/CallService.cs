@@ -54,14 +54,14 @@ namespace Call_Center_Server.Services
 
         public async Task<CallModel> UpdateCallAsync(CallModel call)
         {
-            var callfromDb = await db.Calls.FirstOrDefaultAsync(u=>u.Id==call.Id);
-            if (callfromDb!=null)
+            var callfromDb = await db.Calls.FirstOrDefaultAsync(u => u.Id == call.Id);
+            if (callfromDb != null)
             {
                 db.Entry(callfromDb).CurrentValues.SetValues(call);
-               await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
                 return callfromDb;
             }
-            return call; 
+            return call;
         }
     }
 }
