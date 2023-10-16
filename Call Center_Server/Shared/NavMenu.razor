@@ -1,21 +1,25 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<nav class="navbar navbar-expand-lg bg-dark-subtle">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Call Center_Server</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+        <a class="navbar-brand" href="/">CCM</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    </div>
-</div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <div class="navbar-nav me-auto">
+                <a class="nav-link" aria-current="page" href="#">Home</a>
+                <a class="nav-link" href="/calls/dashboard">Calls Dashboard</a>
+            </div>
+
+            <div class="navbar-nav ms-auto">
+                <LoginDisplay/>
+            </div>
         </div>
-    </nav>
-</div>
+    </div>
+</nav>
 
 @code {
     private bool collapseNavMenu = true;

@@ -1,5 +1,5 @@
-﻿@page "/call/create"
-@page "/call/update/{id:int}"
+﻿@page "/calls/create"
+@page "/calls/update/{id:int}"
 
 @inject ICallService iCallService
 @inject NavigationManager nav
@@ -10,6 +10,7 @@
 
     <div class="row">
         <h2 class="card-title text-primary mb-3 ml-3">@Title Call</h2>
+        <hr/>
     </div>
 
     <div class="row">
@@ -134,8 +135,8 @@
 
                 <div class="row py-4">
                     <div class="form-group">
-                        <button class="btn btn-primary">@Title Call</button>
-                        <NavLink href="/callslist" class="btn btn-secondary">Back to Calls List</NavLink>
+                        <button class="btn btn-primary">@Title</button>
+                        <NavLink href="/calls/dashboard" class="btn btn-secondary">Dashboard</NavLink>
                     </div>
                 </div>
             </EditForm>
@@ -194,6 +195,6 @@
             await iCallService.UpdateCallAsync(CallModel);
         }
 
-        nav.NavigateTo("/callslist");
+        nav.NavigateTo("/calls/dashboard");
     }
 }
