@@ -1,25 +1,36 @@
-﻿<nav class="navbar navbar-expand-lg bg-dark-subtle">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">CCM</a>
+﻿<nav class="navbar navbar-expand-lg  bg-dark-subtle navbar-light p-0 m-0">
+    <div class="container-fluid p-0 m-0">
+
+        <a class="navbar-brand ms-3" href="/">CCM</a>
+
+        @* Showing at smaller window *@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" 
+                aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
 
-            <div class="navbar-nav me-auto">
-                <a class="nav-link" aria-current="page" href="#">Home</a>
-                <a class="nav-link" href="/calls/dashboard">Calls Dashboard</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav p-0 m-0">
+                <a class="nav-link m-0 p-0 mt-4 pt-1 me-2 text-black" aria-current="page" href="#">Home</a>
+
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-black pt-2" role="button" data-bs-toggle="dropdown" aria-expanded="false" href="#">Calls</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-black" href="/calls/dashboard">Dashboard</a></li>
+                        <li><a class="dropdown-item text-black" href="/calls/create">New Call</a></li>
+                    </ul>
+                </div>
             </div>
 
             <div class="navbar-nav ms-auto">
                 <LoginDisplay/>
             </div>
         </div>
-    </div>
-</nav>
+   </div>
+ </nav>
 
 @code {
     private bool collapseNavMenu = true;

@@ -10,7 +10,7 @@
 
     <div class="row">
         <h2 class="card-title text-primary mb-3 ml-3">@Title Call</h2>
-        <hr/>
+        <hr />
     </div>
 
     <div class="row">
@@ -124,13 +124,34 @@
                         </div>
                     </div>
 
-                    <div class="col-6">
-                        <div class="form-floating">
-                            <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallStage" />
-                            <label for="floatingInputGrid">Stage</label>
-                            <ValidationMessage For="()=>CallModel.CallStage"></ValidationMessage>
+                    @if (Id <= 0)
+                    {
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallStage" />
+                                <label for="floatingInputGrid">Stage</label>
+                                <ValidationMessage For="()=>CallModel.CallStage"></ValidationMessage>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="CallModel.CallStage">
+                                    <option value="@StaticConstant.CallStage_New" selected>@StaticConstant.CallStage_New</option>
+                                    <option value="@StaticConstant.CallStage_Processing">@StaticConstant.CallStage_Processing</option>
+                                    <option value="@StaticConstant.CallStage_Offering">@StaticConstant.CallStage_Offering</option>
+                                    <option value="@StaticConstant.CallStage_Pending">@StaticConstant.CallStage_Pending</option>
+                                    <option value="@StaticConstant.CallStage_Approved">@StaticConstant.CallStage_Approved</option>
+                                    <option value="@StaticConstant.CallStage_Cancelled">@StaticConstant.CallStage_Cancelled</option>
+                                    <option value="@StaticConstant.CallStage_Completed">@StaticConstant.CallStage_Completed</option>
+                                </InputSelect>
+                                <label for="floatingSelectGrid">Stage</label>
+                                <ValidationMessage For="()=>CallModel.CallStage"></ValidationMessage>
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 <div class="row py-4">
@@ -159,7 +180,7 @@
     {
         if (firstRender)
         {
-            if (Id == 0)
+            if (Id <= 0)
             {
                 //Create Call.
                 IsLoading = false;

@@ -1,0 +1,179 @@
+﻿@page "/calls/dashboard"
+
+@inject ICallService iCallService
+@inject NavigationManager nav
+
+
+<h1 class="text-center" style="color:black">Calls Dashboard</h1>
+<hr />
+
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/general/loading.gif">
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black">@StaticConstant.CallStage_New</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_New))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:aliceblue">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:Highlight">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Processing</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:lightyellow">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:gold">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Offering</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:lightgreen">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:forestgreen">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black text-nowrap">@StaticConstant.CallStage_Pending</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:lemonchiffon">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:palegoldenrod">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Approved</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:aquamarine">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:azure">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Cancelled</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:orchid">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:mediumorchid">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-2 my-2">
+                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Completed</h4>
+                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed))
+                {
+                    <div class="row-2 my-2">
+                        <div class="card" style="background-color:lightgray">
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:gray">@call.CallsUrgency</div>
+                            <div class="card-body">
+                                <h5>@call.CustomerName</h5>
+                                <h6>@call.CustomerPhone</h6>
+                                <h6>@call.CustomerEmail</h6>
+                                <h6>@call.CustomerCompanyName</h6>
+                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+@code {
+    private bool IsLoading;
+    private IEnumerable<CallModel> Calls = new List<CallModel>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadCalls();
+        }
+    }
+
+    private async Task LoadCalls()
+    {
+        IsLoading = true;
+        StateHasChanged();
+        Calls = await iCallService.GetCallsAsync();
+        IsLoading = false;
+        StateHasChanged();
+    }
+}
