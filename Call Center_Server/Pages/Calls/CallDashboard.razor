@@ -18,11 +18,19 @@ else
     <div class="container-fluid">
         <div class="row mb-4">
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black">@StaticConstant.CallStage_New</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_New</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_New).Count()]</p>
+                    </div>
+                </div>
+
                 @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_New))
                 {
                     <div class="row-2 my-2">
-                        <div class="card" style="background-color:aliceblue">
+                        <div class="card" style="background-color:azure">
                             <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:Highlight">@call.CallsUrgency</div>
                             <div class="card-body">
                                 <h5>@call.CustomerName</h5>
@@ -37,7 +45,14 @@ else
             </div>
 
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Processing</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Processing</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing).Count()]</p>
+                    </div>
+                </div>
                 @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing))
                 {
                     <div class="row-2 my-2">
@@ -56,7 +71,14 @@ else
             </div>
 
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Offering</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Offering</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering).Count()]</p>
+                    </div>
+                </div>
                 @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering))
                 {
                     <div class="row-2 my-2">
@@ -75,7 +97,14 @@ else
             </div>
 
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black text-nowrap">@StaticConstant.CallStage_Pending</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Pending</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending).Count()]</p>
+                    </div>
+                </div>
                 @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending))
                 {
                     <div class="row-2 my-2">
@@ -94,8 +123,14 @@ else
             </div>
 
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Approved</h4>
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved))
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Approved</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved).Count()]</p>
+                    </div>
+                </div>                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved))
                 {
                     <div class="row-2 my-2">
                         <div class="card" style="background-color:aquamarine">
@@ -113,7 +148,14 @@ else
             </div>
 
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Cancelled</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Cancelled</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled).Count()]</p>
+                    </div>
+                </div>
                 @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled))
                 {
                     <div class="row-2 my-2">
@@ -132,7 +174,14 @@ else
             </div>
 
             <div class="col-lg-2 my-2">
-                <h4 class="ms-2 text-black">@StaticConstant.CallStage_Completed</h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Completed</h4>
+                    </div>
+                    <div class="col-2 mt-1">
+                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed).Count()]</p>
+                    </div>
+                </div>
                 @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed))
                 {
                     <div class="row-2 my-2">
