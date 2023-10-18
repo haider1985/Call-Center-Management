@@ -57,5 +57,9 @@ namespace Call_Center_Server.Models
         [Required]
         [Display(Name = "Stage")]
         public string CallStage { get; set; } = "New";
+
+
+        //Relationship calls to assigned person.
+        public ICollection<AssignedCallModel> AssignedEmployees { get; set; } = new List<AssignedCallModel>();
     }
 }
