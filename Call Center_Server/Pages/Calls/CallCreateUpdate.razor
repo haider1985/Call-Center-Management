@@ -1,6 +1,6 @@
 ﻿@page "/calls/create"
 @page "/calls/update/{id:int}"
-
+@inject IJSRuntime iJSRuntime
 @inject ICallService iCallService
 @inject NavigationManager nav
 
@@ -23,50 +23,50 @@
         }
         else
         {
-            <EditForm Model="CallModel" OnValidSubmit="CreateUpdateCall">
+            <EditForm Model="CallModelEditForm" OnValidSubmit="CreateUpdateCall">
                 <DataAnnotationsValidator />
 
                 <div class="row g-2 mb-3">
                     <h3 class="text-center" style="color:GrayText">Call Information</h3>
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputNumber disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModel.Id" />
+                            <InputNumber disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.Id" />
                             <label for="floatingInputGrid">Call Id</label>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputDate class="form-control" id="floatingInputGrid" Type="InputDateType.DateTimeLocal" format="dd/MMM/yyyy hh:mm tt" @bind-Value="CallModel.CallDateTime" />
+                            <InputDate class="form-control" id="floatingInputGrid" Type="InputDateType.DateTimeLocal" format="dd/MMM/yyyy hh:mm tt" @bind-Value="CallModelEditForm.CallDateTime" />
                             <label for="floatingInputGrid">Date & Time</label>
-                            <ValidationMessage For="()=>CallModel.CallDateTime"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CallDateTime"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="CallModel.CallsUrgency">
+                            <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="CallModelEditForm.CallsUrgency">
                                 <option value="Not Urgent">Not Urgent</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Immediately">Immediately</option>
                             </InputSelect>
                             <label for="floatingSelectGrid">Urgency Level</label>
-                            <ValidationMessage For="()=>CallModel.CallsUrgency"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CallsUrgency"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallStatus" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CallStatus" />
                             <label for="floatingInputGrid">Status</label>
-                            <ValidationMessage For="()=>CallModel.CallStatus"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CallStatus"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="form-floating col-12">
-                        <InputTextArea style="height:150px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallReason" />
+                        <InputTextArea style="height:150px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CallReason" />
                         <label for="floatingInputGrid">Reason Of Call *</label>
-                        <ValidationMessage For="()=>CallModel.CallReason"></ValidationMessage>
+                        <ValidationMessage For="()=>CallModelEditForm.CallReason"></ValidationMessage>
                     </div>
                 </div>
 
@@ -75,40 +75,40 @@
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerName" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerName" />
                             <label for="floatingInputGrid">Full Name *</label>
-                            <ValidationMessage For="()=>CallModel.CustomerName"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CustomerName"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerCompanyName" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerCompanyName" />
                             <label for="floatingInputGrid">Company Name</label>
-                            <ValidationMessage For="()=>CallModel.CustomerCompanyName"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CustomerCompanyName"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerEmail" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerEmail" />
                             <label for="floatingInputGrid">Email *</label>
-                            <ValidationMessage For="()=>CallModel.CustomerEmail"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CustomerEmail"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerPhone" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerPhone" />
                             <label for="floatingInputGrid">Phone Number *</label>
-                            <ValidationMessage For="()=>CallModel.CustomerPhone"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.CustomerPhone"></ValidationMessage>
                         </div>
                     </div>
 
                     <div class="form-floating col-12">
-                        <InputTextArea style="height:100px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CustomerCompanyAddress" />
+                        <InputTextArea style="height:100px;" class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerCompanyAddress" />
                         <label for="floatingInputGrid">Company Address</label>
-                        <ValidationMessage For="()=>CallModel.CustomerCompanyAddress"></ValidationMessage>
+                        <ValidationMessage For="()=>CallModelEditForm.CustomerCompanyAddress"></ValidationMessage>
                     </div>
                 </div>
 
@@ -118,9 +118,9 @@
 
                     <div class="col-6">
                         <div class="form-floating">
-                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModel.AgentEmployeeName" />
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.AgentEmployeeName" />
                             <label for="floatingInputGrid">Employee Name *</label>
-                            <ValidationMessage For="()=>CallModel.AgentEmployeeName"></ValidationMessage>
+                            <ValidationMessage For="()=>CallModelEditForm.AgentEmployeeName"></ValidationMessage>
                         </div>
                     </div>
 
@@ -128,29 +128,41 @@
                     {
                         <div class="col-6">
                             <div class="form-floating">
-                                <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModel.CallStage" />
+                                <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CallStage" />
                                 <label for="floatingInputGrid">Stage</label>
-                                <ValidationMessage For="()=>CallModel.CallStage"></ValidationMessage>
+                                <ValidationMessage For="()=>CallModelEditForm.CallStage"></ValidationMessage>
                             </div>
                         </div>
                     }
-                    else
+                    else if (Id > 0)
                     {
-                        <div class="col-6">
-                            <div class="form-floating">
-                                <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="CallModel.CallStage">
-                                    <option value="@StaticConstant.CallStage_New" selected>@StaticConstant.CallStage_New</option>
-                                    <option value="@StaticConstant.CallStage_Processing">@StaticConstant.CallStage_Processing</option>
-                                    <option value="@StaticConstant.CallStage_Offering">@StaticConstant.CallStage_Offering</option>
-                                    <option value="@StaticConstant.CallStage_Pending">@StaticConstant.CallStage_Pending</option>
-                                    <option value="@StaticConstant.CallStage_Approved">@StaticConstant.CallStage_Approved</option>
-                                    <option value="@StaticConstant.CallStage_Cancelled">@StaticConstant.CallStage_Cancelled</option>
-                                    <option value="@StaticConstant.CallStage_Completed">@StaticConstant.CallStage_Completed</option>
-                                </InputSelect>
-                                <label for="floatingSelectGrid">Stage</label>
-                                <ValidationMessage For="()=>CallModel.CallStage"></ValidationMessage>
+                        if (CallModelEditForm.CallStage == StaticConstant.CallStage_Completed || CallModelEditForm.CallStage == StaticConstant.CallStage_Cancelled)
+                        {
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CallStage" />
+                                    <label for="floatingInputGrid">Stage</label>
+                                    <ValidationMessage For="()=>CallModelEditForm.CallStage"></ValidationMessage>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="CallModelEditForm.CallStage">
+                                        <option value="@StaticConstant.CallStage_Processing">@StaticConstant.CallStage_Processing</option>
+                                        <option value="@StaticConstant.CallStage_Offering">@StaticConstant.CallStage_Offering</option>
+                                        <option value="@StaticConstant.CallStage_Pending">@StaticConstant.CallStage_Pending</option>
+                                        <option value="@StaticConstant.CallStage_Approved">@StaticConstant.CallStage_Approved</option>
+                                        <option value="@StaticConstant.CallStage_Cancelled">@StaticConstant.CallStage_Cancelled</option>
+                                        <option value="@StaticConstant.CallStage_Completed">@StaticConstant.CallStage_Completed</option>
+                                    </InputSelect>
+                                    <label for="floatingSelectGrid">Stage</label>
+                                    <ValidationMessage For="()=>CallModelEditForm.CallStage"></ValidationMessage>
+                                </div>
+                            </div>
+                        }
                     }
                 </div>
 
@@ -174,7 +186,7 @@
 
     private string Title = "Create";
     private bool IsLoading;
-    private CallModel CallModel { get; set; } = new();
+    private CallModel CallModelEditForm { get; set; } = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -198,24 +210,29 @@
     {
         IsLoading = true;
         StateHasChanged();
-        CallModel = await iCallService.GetCallAsync(Id);
+        CallModelEditForm = await iCallService.GetCallAsync(Id);
         IsLoading = false;
         StateHasChanged();
     }
 
     private async Task CreateUpdateCall()
     {
-        if (CallModel.Id == 0)
+        if (CallModelEditForm.Id == 0)
         {
             //Create Call.
-            await iCallService.CreateCallAsync(CallModel);
+            await iCallService.CreateCallAsync(CallModelEditForm);
+            await iJSRuntime.InvokeVoidAsync("ShowToastr", "success", "Call Created Successfully.");
+        }
+        else if (CallModelEditForm.Id > 0)
+        {
+            //Update Call.
+            await iCallService.UpdateCallAsync(CallModelEditForm);
+            await iJSRuntime.InvokeVoidAsync("ShowToastr", "success", "Call Updated Successfully.");
         }
         else
         {
-            //Update Call.
-            await iCallService.UpdateCallAsync(CallModel);
+            await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "No call registered with this Id.");
         }
-
         nav.NavigateTo("/calls/dashboard");
     }
 }

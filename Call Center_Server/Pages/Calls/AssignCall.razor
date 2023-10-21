@@ -147,7 +147,10 @@
                 nav.NavigateTo("/calls/dashboard");
             }
         }
-
+        else
+        {
+            await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "Wrong Call Id!");
+        }
         SendingActive = false;
     }
 
