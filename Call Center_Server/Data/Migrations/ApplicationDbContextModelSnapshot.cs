@@ -55,7 +55,7 @@ namespace Call_Center_Server.Data.Migrations
 
                     b.HasIndex("CallModelId");
 
-                    b.ToTable("AssignedCallModel");
+                    b.ToTable("AssignedCallModels");
                 });
 
             modelBuilder.Entity("Call_Center_Server.Models.CallModel", b =>

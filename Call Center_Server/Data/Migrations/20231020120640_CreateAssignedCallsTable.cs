@@ -5,13 +5,13 @@
 namespace Call_Center_Server.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateAssignedCallTable : Migration
+    public partial class CreateAssignedCallsTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AssignedCallModel",
+                name: "AssignedCallModels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,9 +24,9 @@ namespace Call_Center_Server.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssignedCallModel", x => x.Id);
+                    table.PrimaryKey("PK_AssignedCallModels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssignedCallModel_Calls_CallModelId",
+                        name: "FK_AssignedCallModels_Calls_CallModelId",
                         column: x => x.CallModelId,
                         principalTable: "Calls",
                         principalColumn: "Id",
@@ -34,8 +34,8 @@ namespace Call_Center_Server.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignedCallModel_CallModelId",
-                table: "AssignedCallModel",
+                name: "IX_AssignedCallModels_CallModelId",
+                table: "AssignedCallModels",
                 column: "CallModelId");
         }
 
@@ -43,7 +43,7 @@ namespace Call_Center_Server.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssignedCallModel");
+                name: "AssignedCallModels");
         }
     }
 }

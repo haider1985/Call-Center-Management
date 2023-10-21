@@ -1,0 +1,164 @@
+﻿@page "/calls/assigncall/{callId:int}"
+@inject IAssignCallService iAssignCallService
+@inject IEmailSenderService iEmailSenderService
+@inject ICallService iCallService
+@inject IJSRuntime iJSRuntime
+@inject NavigationManager nav
+@inject IWebHostEnvironment env
+
+@using System.Net;
+@using System.Net.Mail;
+
+<div class="container-fluid">
+    <h2 class="text-black text-center">Assigne Call</h2>
+    <hr />
+
+    <EditForm Model="AssignedCallModel" OnValidSubmit="SendAssignedCallByEmail">
+        <DataAnnotationsValidator />
+        @if (SendingActive)
+        {
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-floating">
+                        <InputSelect disabled class="form-select" id="floatingSelectGrid" @bind-Value="AssignedCallModel.Title">
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Msc.">Msc.</option>
+                            <option value="Dr.">Dr.</option>
+                            <option value="Eng.">Eng.</option>
+                        </InputSelect>
+                        <label for="floatingSelectGrid">Title</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="AssignedCallModel.AssignedEmployeeFullName" />
+                        <label for="floatingInputGrid">Full Name</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <InputText disabled class="form-control" id="floatingInputGrid" @bind-Value="AssignedCallModel.AssignedEmployeeEmail" />
+                        <label for="floatingInputGrid">Email</label>
+                        <ValidationMessage For="()=>AssignedCallModel.AssignedEmployeeEmail"></ValidationMessage>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row py-4">
+                <div class="form-group">
+                    <button disabled class="btn btn-secondary">Sending...</button>
+                    <a href="/calls/dashboard" class="btn btn-secondary">Dashboard</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-floating">
+                        <InputSelect class="form-select" id="floatingSelectGrid" @bind-Value="AssignedCallModel.Title">
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Msc.">Msc.</option>
+                            <option value="Dr.">Dr.</option>
+                            <option value="Eng.">Eng.</option>
+                        </InputSelect>
+                        <label for="floatingSelectGrid">Title</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <InputText class="form-control" id="floatingInputGrid" @bind-Value="AssignedCallModel.AssignedEmployeeFullName" />
+                        <label for="floatingInputGrid">Full Name</label>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-floating">
+                        <InputText class="form-control" id="floatingInputGrid" @bind-Value="AssignedCallModel.AssignedEmployeeEmail" />
+                        <label for="floatingInputGrid">Email</label>
+                        <ValidationMessage For="()=>AssignedCallModel.AssignedEmployeeEmail"></ValidationMessage>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row py-4">
+                <div class="form-group">
+                    <button class="btn btn-primary">Send</button>
+                    <a href="/calls/dashboard" class="btn btn-secondary">Dashboard</a>
+                </div>
+            </div>
+        }
+
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int CallId { get; set; }
+
+    private AssignedCallModel AssignedCallModel { get; set; } = new();
+    private CallModel CallModel { get; set; } = new();
+
+    private string EmailBody { get; set; } = string.Empty;
+    private bool SendingActive { get; set; } = false;
+
+    private async Task SendAssignedCallByEmail()
+    {
+        SendingActive = true;
+        if (CallId > 0)
+        {
+            CallModel = await iCallService.GetCallAsync(CallId);
+            if (CallModel.Id > 0)
+            {
+                try
+                {
+                    //Change call stage from New to Process.
+                    if (CallModel.CallStage == StaticConstant.CallStage_New)
+                    {
+                        CallModel.CallStage = StaticConstant.CallStage_Processing;
+                        await iCallService.UpdateCallAsync(CallModel);
+                    }
+
+                    //Save assign call to database.
+                    AssignedCallModel.CallModelId = CallModel.Id;
+                    AssignedCallModel.CallModel = CallModel;
+                    await iAssignCallService.CreateAssignCallAsync(AssignedCallModel);
+
+                    //Send the assign email.
+                    CreateEmailBody();
+                    await iEmailSenderService.SendEmailAsync(AssignedCallModel.AssignedEmployeeEmail,
+                    "Assigned Call", EmailBody);
+                    await iJSRuntime.InvokeVoidAsync("ShowToastr", "success", "Email Sent Successfully.");
+                }
+                catch (Exception ex)
+                {
+                    await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", ex.Message);
+                }
+            }
+            else
+            {
+                await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "There is no call registered with is Id!");
+                nav.NavigateTo("/calls/dashboard");
+            }
+        }
+
+        SendingActive = false;
+    }
+
+    private string CreateEmailBody()
+    {      
+        string path = env.WebRootPath + "\\resources\\AssignCallEmail.txt";
+        StreamReader reader = File.OpenText(path);
+        string htmlFileToReplace = reader.ReadToEnd();
+        htmlFileToReplace = htmlFileToReplace.Replace("#Title", AssignedCallModel.Title).Replace("#UserName", AssignedCallModel.AssignedEmployeeFullName);
+        EmailBody = htmlFileToReplace;
+        reader.Close();
+        return EmailBody;
+    }
+}

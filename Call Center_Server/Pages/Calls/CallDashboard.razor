@@ -1,6 +1,7 @@
 ﻿@page "/calls/dashboard"
 
 @inject ICallService iCallService
+@inject IAssignCallService iAssignedCallService
 @inject NavigationManager nav
 
 
@@ -22,7 +23,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_New</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_New).Count()]</p>
                     </div>
                 </div>
@@ -31,14 +32,22 @@ else
                 {
                     <div class="row-2 my-2">
                         <div class="card" style="background-color:azure">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:Highlight">@call.CallsUrgency</div>
+                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:Highlight">
+                                @call.CallsUrgency
+                            </div>
+
                             <div class="card-body">
                                 <h5>@call.CustomerName</h5>
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
                                 <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
-                                <a href="/calls/assign/@call.Id" class="btn btn-outline-warning">Assign</a>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="d-inline-flex align-content-stretch">
+                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    <a href="/calls/assigncall/@call.Id" class="btn btn-sm btn-outline-warning">Assign</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -50,7 +59,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_Processing</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing).Count()]</p>
                     </div>
                 </div>
@@ -63,8 +72,12 @@ else
                                 <h5>@call.CustomerName</h5>
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                                <h6>@call.CustomerCompanyName</h6>   
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-inline-flex align-content-stretch">
+                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,7 +89,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_Offering</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering).Count()]</p>
                     </div>
                 </div>
@@ -90,7 +103,11 @@ else
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
                                 <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-inline-flex align-content-stretch">
+                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -102,7 +119,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_Pending</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending).Count()]</p>
                     </div>
                 </div>
@@ -116,7 +133,11 @@ else
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
                                 <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-inline-flex align-content-stretch">
+                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,7 +149,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_Approved</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved).Count()]</p>
                     </div>
                 </div>                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved))
@@ -141,7 +162,11 @@ else
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
                                 <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-inline-flex align-content-stretch">
+                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,7 +178,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_Cancelled</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled).Count()]</p>
                     </div>
                 </div>
@@ -167,7 +192,6 @@ else
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
                                 <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
                             </div>
                         </div>
                     </div>
@@ -179,7 +203,7 @@ else
                     <div class="col-8">
                         <h4 class="ms-2 text-black">@StaticConstant.CallStage_Completed</h4>
                     </div>
-                    <div class="col-2 mt-1">
+                    <div class="col-2 mt-1 ms-3">
                         <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed).Count()]</p>
                     </div>
                 </div>
@@ -193,7 +217,6 @@ else
                                 <h6>@call.CustomerPhone</h6>
                                 <h6>@call.CustomerEmail</h6>
                                 <h6>@call.CustomerCompanyName</h6>
-                                <a href="/calls/update/@call.Id" class="btn btn-outline-primary">Edit</a>
                             </div>
                         </div>
                     </div>

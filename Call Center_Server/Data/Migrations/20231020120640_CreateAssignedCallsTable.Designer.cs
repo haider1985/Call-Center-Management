@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Call_Center_Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231018084427_CreateAssignedCallTable")]
-    partial class CreateAssignedCallTable
+    [Migration("20231020120640_CreateAssignedCallsTable")]
+    partial class CreateAssignedCallsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,7 +58,7 @@ namespace Call_Center_Server.Data.Migrations
 
                     b.HasIndex("CallModelId");
 
-                    b.ToTable("AssignedCallModel");
+                    b.ToTable("AssignedCallModels");
                 });
 
             modelBuilder.Entity("Call_Center_Server.Models.CallModel", b =>

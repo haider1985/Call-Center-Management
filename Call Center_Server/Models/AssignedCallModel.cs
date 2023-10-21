@@ -16,6 +16,7 @@ namespace Call_Center_Server.Models
         [Display(Name = "Assigned Employee Name")]
         public string AssignedEmployeeFullName { get; set; } = string.Empty;
 
+        [Required]
         [StringLength(100)]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Assigned Employee Email")]
