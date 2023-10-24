@@ -128,6 +128,7 @@
                     //Save assign call to database.
                     AssignedCallModel.CallModelId = CallModel.Id;
                     AssignedCallModel.CallModel = CallModel;
+                    AssignedCallModel.IsAssigned = true;
                     await iAssignCallService.CreateAssignCallAsync(AssignedCallModel);
 
                     //Send the assign email.
@@ -143,7 +144,7 @@
             }
             else
             {
-                await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "There is no call registered with is Id!");
+                await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "No call registered with this Id!");
                 nav.NavigateTo("/calls/dashboard");
             }
         }
@@ -159,7 +160,7 @@
         string path = env.WebRootPath + "\\resources\\AssignCallEmail.txt";
         StreamReader reader = File.OpenText(path);
         string htmlFileToReplace = reader.ReadToEnd();
-        htmlFileToReplace = htmlFileToReplace.Replace("#Title", AssignedCallModel.Title).Replace("#UserName", AssignedCallModel.AssignedEmployeeFullName);
+        htmlFileToReplace = htmlFileToReplace.Replace("#Title", AssignedCallModel.Title).Replace("#UserName", AssignedCallModel.AssignedEmployeeFullName).Replace("#CallId", AssignedCallModel.CallModelId.ToString());
         EmailBody = htmlFileToReplace;
         reader.Close();
         return EmailBody;

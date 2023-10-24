@@ -21,22 +21,9 @@ namespace Call_Center_Server.Services
             return assignCall;
         }
 
-        public async Task<AssignedCallModel> GetAssignCallAsync(int id)
+        public async Task<IEnumerable<AssignedCallModel>> GetAssignCallsAsync(int callId)
         {
-            if (id != 0)
-            {
-                var assignCall = await db.AssignedCallModels.FindAsync(id);
-                if (assignCall != null)
-                {
-                    return assignCall;
-                }
-            }
-            return new AssignedCallModel();
-        }
-
-        public async Task<IEnumerable<AssignedCallModel>> GetCallsAsync()
-        {
-            return await db.AssignedCallModels.ToListAsync();
+            return await db.AssignedCallModels.Where(u => u.CallModelId == callId).ToListAsync();
         }
     }
 }

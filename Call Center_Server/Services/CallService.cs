@@ -36,13 +36,12 @@ namespace Call_Center_Server.Services
 
         public async Task<CallModel> GetCallAsync(int callId)
         {
-            if (callId != 0)
+            var call = await db.Calls.Include(u => u.AssignedEmployees
+                                     .Where(u => u.CallModelId == callId))
+                                     .FirstOrDefaultAsync(u => u.Id == callId);
+            if (call != null)
             {
-                var call = await db.Calls.FindAsync(callId);
-                if (call != null)
-                {
-                    return call;
-                }
+                return call;
             }
             return new CallModel();
         }
@@ -54,7 +53,7 @@ namespace Call_Center_Server.Services
 
         public async Task<CallModel> UpdateCallAsync(CallModel call)
         {
-            var callfromDb = await db.Calls.FirstOrDefaultAsync(u => u.Id == call.Id);
+            var callfromDb = await db.Calls.FindAsync(call.Id);
             if (callfromDb != null)
             {
                 db.Entry(callfromDb).CurrentValues.SetValues(call);

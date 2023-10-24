@@ -1,0 +1,176 @@
+﻿@page "/calls/calldetails/{id:int}"
+
+@inject ICallService iCallService
+@inject IAssignCallService iAssignCallService
+@inject IJSRuntime iJSRuntime
+@inject NavigationManager nav
+
+<div class="container-fluid my-2">
+
+    <div class="row">
+        <h2 class="card-title text-black text-center mb-3 ml-3">Call Details</h2>
+        <hr />
+    </div>
+
+    @if (IsLoading)
+    {
+        <div class="row">
+            <div class="text-center">
+                <img src="/images/general/loading.gif">
+            </div>
+        </div>
+    }
+    else
+    {
+        <EditForm Model="CallModelEditForm" OnSubmit="UpdateCallStatus">
+            <div class="row">
+                @* Call Information *@
+                <div class="col-6">
+                    <div class="row g-2 mt-4">
+                        <h3 class="text-center" style="color:GrayText">Call Information</h3>
+
+                        <div class="col-6 form-floating">
+                            <InputNumber class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.Id" disabled />
+                            <label for="floatingInputGrid">Call Id</label>
+                        </div>
+
+                        <div class="col-6 form-floating">
+                            <InputDate class="form-control" id="floatingInputGrid" Type="InputDateType.DateTimeLocal" format="dd/MMM/yyyy hh:mm tt" @bind-Value="CallModelEditForm.CallDateTime" disabled />
+                            <label for="floatingInputGrid">Date & Time</label>
+                        </div>
+
+                        <div class="col-12 form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CallsUrgency" disabled />
+                            <label for="floatingInputGrid">Urgency Level</label>
+                        </div>
+
+                        <div class="col-12 form-floating">
+                            <InputTextArea class="form-control" id="floatingInputGrid" style="height:150px;" @bind-Value="CallModelEditForm.CallReason" disabled />
+                            <label for="floatingInputGrid">Reason Of Call</label>
+                        </div>
+                    </div>
+                </div>
+
+                @* Customer Information *@
+                <div class="col-6">
+                    <div class="row g-2 mt-4">
+                        <h3 class="text-center" style="color:GrayText">Customer Information</h3>
+
+                        <div class="col-6 form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerName" disabled />
+                            <label for="floatingInputGrid">Full Name</label>
+                        </div>
+
+                        <div class="col-6 form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerCompanyName" disabled />
+                            <label for="floatingInputGrid">Company Name</label>
+                        </div>
+
+                        <div class="col-6 form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerEmail" disabled />
+                            <label for="floatingInputGrid">Email</label>
+                        </div>
+
+
+                        <div class="col-6 form-floating">
+                            <InputText class="form-control" id="floatingInputGrid" @bind-Value="CallModelEditForm.CustomerPhone" disabled />
+                            <label for="floatingInputGrid">Phone Number</label>
+                        </div>
+
+                        <div class="col-12 form-floating">
+                            <InputTextArea class="form-control" id="floatingInputGrid" style="height:150px;" @bind-Value="CallModelEditForm.CustomerCompanyAddress" disabled />
+                            <label for="floatingInputGrid">Company Address</label>
+                        </div>
+                    </div>
+                </div>
+
+                @*Call Status*@
+                <div class="col-12 mt-4 form-floating">
+                    <InputTextArea class="form-control" id="floatingInputGrid" style="height:150px;" @bind-Value="CallModelEditForm.CallStatus" />
+                    <label class="ms-2" for="floatingInputGrid">Call Status</label>
+                </div>
+
+
+                @*Call Assign Information*@
+                <div class="col-12 mt-4 form-floating">
+                    <h3 class="text-center pb-2" style="color:GrayText">Call Assigned</h3>
+
+                    <div class="row">                      
+                        <table class="table table-responsive table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Employee Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in CallModelEditForm.AssignedEmployees.ToList())
+                                {
+                                    <tr>
+                                        <td>@item.Title</td>
+                                        <td>@item.AssignedEmployeeFullName</td>
+                                        <td>@item.AssignedEmployeeEmail</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                @*Action Buttons*@
+                <div class="col-12 py-2 form-group">
+                    <button class="btn btn-primary">Update</button>
+
+                    @*ADD LOGIC TO SHOW THIS BUTTON TO AUTHORIZED USER ONLY*@
+                    <NavLink href="/calls/dashboard" class="btn btn-secondary">Dashboard</NavLink>
+                </div>
+            </div>
+        </EditForm>
+    }
+</div>
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private bool IsLoading;
+    private CallModel CallModelEditForm { get; set; } = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsLoading = true;
+            StateHasChanged();
+            if (Id > 0)
+            {
+                CallModelEditForm = await iCallService.GetCallAsync(Id);
+            }
+            else
+            {
+                await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "No call registered with this Id.");
+            }
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+
+    private async Task UpdateCallStatus()
+    {
+        if (CallModelEditForm.Id > 0)
+        {
+            //Update Call.
+            await iCallService.UpdateCallAsync(CallModelEditForm);
+            await iJSRuntime.InvokeVoidAsync("ShowToastr", "success", "Call Updated Successfully.");
+        }
+        else
+        {
+            await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "No call registered with this Id.");
+        }
+    }
+}      

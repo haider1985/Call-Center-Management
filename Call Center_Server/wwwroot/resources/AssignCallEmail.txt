@@ -24,7 +24,7 @@
     <hr />
     <p><strong>Dear #Title #UserName,<br />Greetings,</strong></p>
     <p>You have been assigned to a call, kindly click below:</p>
-    <a class="button" href="https://localhost:44388/calls/dashboard">Click Here</a>
+    <a class="button" href="https://localhost:44388/calls/calldetails/#CallId">Click Here</a>
 </body>
 </html>
 

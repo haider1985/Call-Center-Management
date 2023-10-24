@@ -6,8 +6,6 @@ namespace Call_Center_Server.Services.IServices
     {
         public Task<AssignedCallModel> CreateAssignCallAsync(AssignedCallModel assignCall);
 
-        public Task<AssignedCallModel> GetAssignCallAsync(int id);
-
-        public Task<IEnumerable<AssignedCallModel>> GetCallsAsync();
+        public Task<IEnumerable<AssignedCallModel>> GetAssignCallsAsync(int callId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/calls/dashboard"
 
+
 @inject ICallService iCallService
 @inject IAssignCallService iAssignedCallService
 @inject NavigationManager nav
@@ -16,215 +17,222 @@
 }
 else
 {
-    <div class="container-fluid">
-        <div class="row mb-4">
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_New</h4>
+    if (!Calls.Any())
+    {
+        <h1 class="text-success text-center"> Wow! This dashboard looks clean.</h1>
+    }
+    else
+    {
+        <div class="container-fluid">
+            <div class="row mb-4">
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_New</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_New).Count()]</p>
+                        </div>
                     </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_New).Count()]</p>
-                    </div>
-                </div>
 
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_New))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:azure">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:Highlight">
-                                @call.CallsUrgency
-                            </div>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_New))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:azure">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:Highlight">
+                                    @call.CallsUrgency
+                                </div>
 
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
-                            </div>
+                                <div class="card-body" role="button" @onclick="@(()=>NavigateToDetails(call.Id))">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
 
-                            <div class="card-footer">
-                                <div class="d-inline-flex align-content-stretch">
-                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                                    <a href="/calls/assigncall/@call.Id" class="btn btn-sm btn-outline-warning">Assign</a>
+                                <div class="card-footer">
+                                    <div class="d-inline-flex align-content-stretch">
+                                        <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                        <a href="/calls/assigncall/@call.Id" class="btn btn-sm btn-outline-warning">Assign</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Processing</h4>
-                    </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing).Count()]</p>
-                    </div>
+                    }
                 </div>
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:lightyellow">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:gold">@call.CallsUrgency</div>
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>   
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-inline-flex align-content-stretch">
-                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_Processing</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing).Count()]</p>
+                        </div>
+                    </div>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Processing))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:lightyellow">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:gold">@call.CallsUrgency</div>
+                                <div class="card-body" role="button" @onclick="@(()=>NavigateToDetails(call.Id))">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-inline-flex align-content-stretch">
+                                        <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Offering</h4>
-                    </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering).Count()]</p>
-                    </div>
+                    }
                 </div>
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:lightgreen">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:forestgreen">@call.CallsUrgency</div>
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-inline-flex align-content-stretch">
-                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_Offering</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering).Count()]</p>
+                        </div>
+                    </div>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Offering))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:lightgreen">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:forestgreen">@call.CallsUrgency</div>
+                                <div class="card-body" role="button" @onclick="@(()=>NavigateToDetails(call.Id))">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-inline-flex align-content-stretch">
+                                        <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Pending</h4>
-                    </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending).Count()]</p>
-                    </div>
+                    }
                 </div>
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:lemonchiffon">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:palegoldenrod">@call.CallsUrgency</div>
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-inline-flex align-content-stretch">
-                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_Pending</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending).Count()]</p>
+                        </div>
+                    </div>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Pending))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:lemonchiffon">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:palegoldenrod">@call.CallsUrgency</div>
+                                <div class="card-body" role="button" @onclick="@(()=>NavigateToDetails(call.Id))">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-inline-flex align-content-stretch">
+                                        <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
 
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Approved</h4>
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_Approved</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved).Count()]</p>
+                        </div>
                     </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved).Count()]</p>
-                    </div>
-                </div>                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:aquamarine">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:azure">@call.CallsUrgency</div>
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-inline-flex align-content-stretch">
-                                    <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Approved))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:aquamarine">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:azure">@call.CallsUrgency</div>
+                                <div class="card-body" role="button" @onclick="@(()=>NavigateToDetails(call.Id))">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-inline-flex align-content-stretch">
+                                        <a href="/calls/update/@call.Id" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Cancelled</h4>
-                    </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled).Count()]</p>
-                    </div>
+                    }
                 </div>
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:orchid">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:mediumorchid">@call.CallsUrgency</div>
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
-                            </div>
+
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_Cancelled</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled).Count()]</p>
                         </div>
                     </div>
-                }
-            </div>
-
-            <div class="col-lg-2 my-2">
-                <div class="row">
-                    <div class="col-8">
-                        <h4 class="ms-2 text-black">@StaticConstant.CallStage_Completed</h4>
-                    </div>
-                    <div class="col-2 mt-1 ms-3">
-                        <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed).Count()]</p>
-                    </div>
-                </div>
-                @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed))
-                {
-                    <div class="row-2 my-2">
-                        <div class="card" style="background-color:lightgray">
-                            <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:gray">@call.CallsUrgency</div>
-                            <div class="card-body">
-                                <h5>@call.CustomerName</h5>
-                                <h6>@call.CustomerPhone</h6>
-                                <h6>@call.CustomerEmail</h6>
-                                <h6>@call.CustomerCompanyName</h6>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Cancelled))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:orchid">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:mediumorchid">@call.CallsUrgency</div>
+                                <div class="card-body">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
 
+                <div class="col-lg-2 my-2">
+                    <div class="row">
+                        <div class="col-8">
+                            <h4 class="ms-2 text-black">@StaticConstant.CallStage_Completed</h4>
+                        </div>
+                        <div class="col-2 mt-1 ms-3">
+                            <p m-0>[@Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed).Count()]</p>
+                        </div>
+                    </div>
+                    @foreach (var call in Calls.Where(u => u.CallStage == StaticConstant.CallStage_Completed))
+                    {
+                        <div class="row-2 my-2">
+                            <div class="card" style="background-color:lightgray">
+                                <div class="card-header text-center" style="font-weight:bold;font-size:large; background-color:gray">@call.CallsUrgency</div>
+                                <div class="card-body">
+                                    <h5>@call.CustomerName</h5>
+                                    <h6>@call.CustomerPhone</h6>
+                                    <h6>@call.CustomerEmail</h6>
+                                    <h6>@call.CustomerCompanyName</h6>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    </div>
+    }
 }
 
 
@@ -233,20 +241,15 @@ else
     private bool IsLoading;
     private IEnumerable<CallModel> Calls = new List<CallModel>();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await LoadCalls();
-        }
-    }
-
-    private async Task LoadCalls()
+    protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        StateHasChanged();
         Calls = await iCallService.GetCallsAsync();
         IsLoading = false;
-        StateHasChanged();
+    }
+
+    private void NavigateToDetails(int callId)
+    {
+        nav.NavigateTo($"/calls/calldetails/{callId}");
     }
 }

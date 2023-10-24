@@ -1,7 +1,5 @@
 ﻿using Call_Center_Server.Models;
 
-using System.Collections.Generic;
-
 namespace Call_Center_Server.Services.IServices
 {
     public interface ICallService

@@ -169,7 +169,7 @@
                 <div class="row py-4">
                     <div class="form-group">
                         <button class="btn btn-primary">@Title</button>
-                        <NavLink href="/calls/dashboard" class="btn btn-secondary">Dashboard</NavLink>
+                        <NavLink href="/calls/dashboard" class="btn btn-secondary" @onclick="HandleClick">Dashboard</NavLink>
                     </div>
                 </div>
             </EditForm>
@@ -187,6 +187,11 @@
     private string Title = "Create";
     private bool IsLoading;
     private CallModel CallModelEditForm { get; set; } = new();
+
+    private void HandleClick()
+    {
+        nav.NavigateTo("/calls/dashboard", true);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -233,6 +238,6 @@
         {
             await iJSRuntime.InvokeVoidAsync("ShowToastr", "error", "No call registered with this Id.");
         }
-        nav.NavigateTo("/calls/dashboard");
+        nav.NavigateTo("/calls/dashboard", true);
     }
 }
