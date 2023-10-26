@@ -5,9 +5,12 @@
 @inject IJSRuntime iJSRuntime
 @inject NavigationManager nav
 @inject IWebHostEnvironment env
-
 @using System.Net;
 @using System.Net.Mail;
+
+
+@attribute [Authorize(Roles = StaticConstant.Role_Admin)]
+
 
 <div class="container-fluid">
     <h2 class="text-black text-center">Assigne Call</h2>
@@ -156,7 +159,7 @@
     }
 
     private string CreateEmailBody()
-    {      
+    {
         string path = env.WebRootPath + "\\resources\\AssignCallEmail.txt";
         StreamReader reader = File.OpenText(path);
         string htmlFileToReplace = reader.ReadToEnd();

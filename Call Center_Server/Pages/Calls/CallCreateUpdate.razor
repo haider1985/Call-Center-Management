@@ -4,6 +4,7 @@
 @inject ICallService iCallService
 @inject NavigationManager nav
 
+@attribute [Authorize(Roles = StaticConstant.Role_Admin)]
 
 
 <div class="container-fluid my-2">

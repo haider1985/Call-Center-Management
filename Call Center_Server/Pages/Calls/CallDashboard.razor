@@ -6,6 +6,7 @@
 @inject IAssignCallService iAssignedCallService
 @inject NavigationManager nav
 
+@attribute [Authorize(Roles =StaticConstant.Role_Admin)]
 
 <h1 class="text-center" style="color:black">Calls Dashboard</h1>
 <hr />
