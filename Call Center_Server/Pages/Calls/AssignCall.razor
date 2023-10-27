@@ -1,12 +1,13 @@
 ﻿@page "/calls/assigncall/{callId:int}"
 @inject IAssignCallService iAssignCallService
-@inject IEmailSenderService iEmailSenderService
+@inject IEmailSender iEmailSender
 @inject ICallService iCallService
 @inject IJSRuntime iJSRuntime
 @inject NavigationManager nav
 @inject IWebHostEnvironment env
 @using System.Net;
 @using System.Net.Mail;
+@using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 @attribute [Authorize(Roles = StaticConstant.Role_Admin)]
@@ -136,7 +137,7 @@
 
                     //Send the assign email.
                     CreateEmailBody();
-                    await iEmailSenderService.SendEmailAsync(AssignedCallModel.AssignedEmployeeEmail,
+                    await iEmailSender.SendEmailAsync(AssignedCallModel.AssignedEmployeeEmail,
                     "Assigned Call", EmailBody);
                     await iJSRuntime.InvokeVoidAsync("ShowToastr", "success", "Email Sent Successfully.");
                 }

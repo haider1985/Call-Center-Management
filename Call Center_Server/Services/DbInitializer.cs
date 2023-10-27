@@ -46,10 +46,8 @@ namespace Call_Center_Server.Services
                 {
                     roleManager.CreateAsync(new IdentityRole(StaticConstant.Role_User)).GetAwaiter().GetResult();
                 }
-                if (!roleManager.RoleExistsAsync(StaticConstant.Role_Viewer).GetAwaiter().GetResult())
-                {
-                    roleManager.CreateAsync(new IdentityRole(StaticConstant.Role_Viewer)).GetAwaiter().GetResult();
-                }
+
+                //Add Roles as much as you need here.
             }
             catch (Exception)
             {

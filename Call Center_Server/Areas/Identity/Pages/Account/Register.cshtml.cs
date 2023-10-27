@@ -119,7 +119,7 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, StaticConstant.Role_Viewer);
+                    await _userManager.AddToRoleAsync(user, StaticConstant.Role_User);
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

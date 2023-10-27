@@ -1,8 +1,4 @@
-﻿using Call_Center_Server.Common;
-
-using Microsoft.AspNetCore.Identity;
-
-namespace Call_Center_Server.Common
+﻿namespace Call_Center_Server.Common
 {
     public static class StaticConstant
     {
@@ -16,7 +12,7 @@ namespace Call_Center_Server.Common
 
         public const string Role_Admin = "Admin";
         public const string Role_User = "User";
-        public const string Role_Viewer = "Viewer";
+       
 
 
         //Default Admin User Information
@@ -24,12 +20,12 @@ namespace Call_Center_Server.Common
         public const string AdminUser_Passwoard = "Admin*123";
         public const bool AdminUser_EmailConfirmed = true;
 
+
         //Email Service Information
+        //Smtp from Gmail used as default below, you may change it as you need.
         public const string EmailService_EmailAddress = "";
         public const string EmailService_Password = "";
-        public const string EmailService_SmtpClientInfo = "smtp-mail.outlook.com";
+        public const string EmailService_SmtpClientInfo = "smtp.gmail.com";
         public const int EmailService_SmtpClientPortNumber = 587;
-
-
     }
 }
