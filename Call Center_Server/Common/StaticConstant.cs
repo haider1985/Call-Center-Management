@@ -18,6 +18,9 @@
         //Default Admin User Information
         public const string AdminUser_Email = "admin@ccm.com"; // same as UserName
         public const string AdminUser_Passwoard = "Admin*123";
+        public const string AdminUser_FirstName = "Admin";
+        public const string AdminUser_MidName = "Default";
+        public const string AdminUser_LastName = "User";
         public const bool AdminUser_EmailConfirmed = true;
 
 
@@ -27,5 +30,6 @@
         public const string EmailService_Password = "";
         public const string EmailService_SmtpClientInfo = "smtp.gmail.com";
         public const int EmailService_SmtpClientPortNumber = 587;
+
     }
 }

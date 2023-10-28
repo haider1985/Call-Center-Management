@@ -1,5 +1,6 @@
 ﻿using Call_Center_Server.Common;
 using Call_Center_Server.Data;
+using Call_Center_Server.Models;
 using Call_Center_Server.Services.IServices;
 
 using Microsoft.AspNetCore.Identity;
@@ -9,11 +10,11 @@ namespace Call_Center_Server.Services
 {
     public class DbInitializer : IDbInitializer
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ApplicationDbContext db;
 
-        public DbInitializer(UserManager<IdentityUser> userManager,
+        public DbInitializer(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext db)
         {
@@ -32,10 +33,13 @@ namespace Call_Center_Server.Services
                 if (!roleManager.RoleExistsAsync(StaticConstant.Role_Admin).GetAwaiter().GetResult())
                 {
                     roleManager.CreateAsync(new IdentityRole(StaticConstant.Role_Admin)).GetAwaiter().GetResult();
-                    IdentityUser adminUser = new()
+                    ApplicationUser adminUser = new()
                     {
                         UserName = StaticConstant.AdminUser_Email,
                         Email = StaticConstant.AdminUser_Email,
+                        FirstName = StaticConstant.AdminUser_FirstName,
+                        MidName = StaticConstant.AdminUser_MidName,
+                        LastName = StaticConstant.AdminUser_LastName,
                         EmailConfirmed = StaticConstant.AdminUser_EmailConfirmed,
                     };
 

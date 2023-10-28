@@ -1,8 +1,12 @@
 ﻿@page "/calls/create"
 @page "/calls/update/{id:int}"
+@using Microsoft.AspNetCore.Identity;
 @inject IJSRuntime iJSRuntime
 @inject ICallService iCallService
 @inject NavigationManager nav
+@inject AuthenticationStateProvider auth
+@inject UserManager<ApplicationUser> userManager
+
 
 @attribute [Authorize(Roles = StaticConstant.Role_Admin)]
 
@@ -192,6 +196,20 @@
     private void HandleClick()
     {
         nav.NavigateTo("/calls/dashboard", true);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await auth.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user != null)
+        {
+            var applicationUser = await userManager.FindByNameAsync(user.Identity.Name);
+            if (applicationUser.FirstName != string.Empty && applicationUser.FirstName != null)
+            {
+                CallModelEditForm.AgentEmployeeName = applicationUser.FirstName + " " + applicationUser.MidName + " " + applicationUser.LastName;
+            }
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

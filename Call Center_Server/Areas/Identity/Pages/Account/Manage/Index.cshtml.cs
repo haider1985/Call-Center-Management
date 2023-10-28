@@ -6,6 +6,10 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+
+using Call_Center_Server.Data;
+using Call_Center_Server.Models;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,15 +18,18 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext db;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.db = db;
         }
 
         /// <summary>
@@ -30,7 +37,6 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string Username { get; set; }
-
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -58,18 +64,37 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            //Add ApplicationUser Variables.
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Middle Name")]
+            public string MidName { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            var CompleteUser = await _userManager.FindByIdAsync(user.Id);
+
+            var firstName = CompleteUser.FirstName;
+            var midName = CompleteUser.MidName;
+            var lastName = CompleteUser.LastName;
+
             Username = userName;
 
             Input = new InputModel
-            {
-                PhoneNumber = phoneNumber
+            {          
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName,
+                MidName = midName,
             };
         }
 
@@ -99,7 +124,16 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+
+            user.FirstName = Input.FirstName;         
+            user.MidName = Input.MidName;
+            user.LastName = Input.LastName;
+            db.Users.Update(user);
+            db.SaveChanges();
+
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+           
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
