@@ -41,6 +41,7 @@ namespace Call_Center_Server.Services
                         MidName = StaticConstant.AdminUser_MidName,
                         LastName = StaticConstant.AdminUser_LastName,
                         EmailConfirmed = StaticConstant.AdminUser_EmailConfirmed,
+                        ImageUrl = StaticConstant.AdminUser_ImageUrl,
                     };
 
                     userManager.CreateAsync(adminUser, StaticConstant.AdminUser_Passwoard).GetAwaiter().GetResult();

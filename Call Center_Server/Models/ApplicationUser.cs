@@ -19,5 +19,8 @@ namespace Call_Center_Server.Models
         [StringLength(50)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; } = string.Empty;
+
+        [Display(Name = "User Image")]
+        public string? ImageUrl { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Call_Center_Server.Data;
 using Call_Center_Server.Models;
+using Call_Center_Server.Services.IServices;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,15 +22,17 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext db;
+        private readonly IUserImageUpload imageUpload;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ApplicationDbContext db)
+            ApplicationDbContext db, IUserImageUpload imageUpload)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             this.db = db;
+            this.imageUpload = imageUpload;
         }
 
         /// <summary>
@@ -37,6 +40,10 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string Username { get; set; }
+        
+
+        public string UserImageUrlFromDb { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -74,6 +81,9 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+
+            [Display(Name = "Profile Image")]
+            public IFormFile ProfileImageFile { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -86,6 +96,7 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
             var firstName = CompleteUser.FirstName;
             var midName = CompleteUser.MidName;
             var lastName = CompleteUser.LastName;
+            UserImageUrlFromDb = CompleteUser.ImageUrl;
 
             Username = userName;
 
@@ -128,6 +139,12 @@ namespace Call_Center_Server.Areas.Identity.Pages.Account.Manage
             user.FirstName = Input.FirstName;         
             user.MidName = Input.MidName;
             user.LastName = Input.LastName;
+            if (user.ImageUrl != string.Empty)
+            {
+                imageUpload.DeleteFile(user.ImageUrl);
+            }
+            user.ImageUrl= await imageUpload.UploadFileAsync(Input.ProfileImageFile);
+
             db.Users.Update(user);
             db.SaveChanges();
 

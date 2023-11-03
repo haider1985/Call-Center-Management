@@ -22,6 +22,8 @@
         public const string AdminUser_MidName = "Default";
         public const string AdminUser_LastName = "User";
         public const bool AdminUser_EmailConfirmed = true;
+        public const string AdminUser_ImageUrl = "/images/users/default-user-icon.jpg";
+
 
 
         //Email Service Information
@@ -30,6 +32,5 @@
         public const string EmailService_Password = "";
         public const string EmailService_SmtpClientInfo = "smtp.gmail.com";
         public const int EmailService_SmtpClientPortNumber = 587;
-
     }
 }

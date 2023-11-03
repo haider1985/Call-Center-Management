@@ -30,6 +30,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddScoped<ICallService, CallService>();
 builder.Services.AddScoped<IAssignCallService, AssignCallService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IUserImageUpload, UserImageUpload>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 

@@ -1,0 +1,86 @@
+﻿@page "/users/dashboard"
+
+@inject NavigationManager nav
+@inject UserManager<ApplicationUser> userManager
+@attribute [Authorize]
+
+
+<h1 class="text-center" style="color:black">Users Dashboard</h1>
+<hr />
+@if (IsLoading)
+{
+    <div class="text-center">
+        <img src="/images/general/loading.gif">
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+
+        <div class="row">
+
+            @*Role Admin*@
+            @foreach (var user in UsersAdminRole)
+            {
+                <div class="card m-1" style="width: 14rem;">
+                    <img src=@user.ImageUrl class="card-img-top" alt="user Profile Image">
+                    <div class="card-body">
+                        <h6>@user.FirstName @user.MidName @user.LastName</h6>
+                        <p>@user.Email</p>
+                        <p>@user.PhoneNumber</p>
+                        <button class="btn btn-outline-primary" @onclick="(()=>ChangeRole(user))">Change to User</button>
+                    </div>
+                </div>
+            }
+
+            @*Role User*@
+            @foreach (var user in UsersUserRole)
+            {
+                <div class="card m-1" style="width: 14rem;">
+                    <img src=@user.ImageUrl class="card-img-top" alt="user Profile Image">
+                    <div class="card-body">
+                        <h6>@user.FirstName @user.MidName @user.LastName</h6>
+                        <p>@user.Email</p>
+                        <p>@user.PhoneNumber</p>
+                        <button class="btn btn-outline-primary" @onclick="(()=>ChangeRole(user))">Change to Admin</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private bool IsLoading;
+    private IEnumerable<ApplicationUser> UsersAdminRole = new List<ApplicationUser>();
+    private IEnumerable<ApplicationUser> UsersUserRole = new List<ApplicationUser>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsLoading = true;
+            StateHasChanged();
+            UsersAdminRole = await userManager.GetUsersInRoleAsync(StaticConstant.Role_Admin);
+            UsersUserRole = await userManager.GetUsersInRoleAsync(StaticConstant.Role_User);
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ChangeRole(ApplicationUser applicationUser)
+    {
+        if (await userManager.IsInRoleAsync(applicationUser, StaticConstant.Role_Admin))
+        {
+            await userManager.AddToRoleAsync(applicationUser, StaticConstant.Role_User);
+            await userManager.RemoveFromRoleAsync(applicationUser, StaticConstant.Role_Admin);
+        }
+
+        else if (await userManager.IsInRoleAsync(applicationUser, StaticConstant.Role_User))
+        {
+            await userManager.AddToRoleAsync(applicationUser, StaticConstant.Role_Admin);
+            await userManager.RemoveFromRoleAsync(applicationUser, StaticConstant.Role_User);
+        }
+        await OnAfterRenderAsync(true);
+    }
+}
